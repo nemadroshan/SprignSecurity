@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-5.3.xsd">
+
+	<security:http use-expressions="true">
+		<security:intercept-url pattern="/home.htm"
+			access="permitAll" />
+		<security:intercept-url pattern="/wish.htm"
+			access="hasAnyRole('ROLE_ADMIN','ROLE_FACULTY')" />
+		<security:form-login />
+		<security:access-denied-handler
+			error-page="/error_page.jsp" />
+		<security:logout logout-success-url="/home.htm" />
+	</security:http>
+
+	<!-- <security:authentication-manager> <security:authentication-provider> 
+		<security:user-service> <security:user name="raja" password="{noop}rani" 
+		authorities="ROLE_ADMIN" locked="true"/> <security:user name="rani" password="{noop}rani" 
+		authorities="ROLE_FACULTY" /> <security:user name="roshan" password="{noop}shubham" 
+		authorities="ROLE_ADMIN,ROLE_FACULTY" disabled="true"/> </security:user-service> 
+		</security:authentication-provider> </security:authentication-manager> -->
+
+	<!-- authenticatiion manager with encrypted password -->
+	<!-- <security:authentication-manager> <security:authentication-provider> 
+		<security:password-encoder hash="bcrypt" /> <security:user-service> <security:user 
+		name="raja" password=" $2a$11$rCtMFQK6B7F.i/rDIMqNQO7TFe6xns0ug9JpAEk3I1XOA7mT89N1m" 
+		authorities="ROLE_ADMIN" /> <security:user name="rani" password="$2a$11$JcMDsXAwKUVnJAzMpc3jiudBIBMMtaeafQJBdH8lH8okeBqz5vb6G" 
+		authorities="ROLE_FACULTY" /> <security:user name="roshan" password="$2a$11$l3yy5czArZvbaYFB6VEAAut7JUMMsYtsi1WxeUL4YEN9E1RKPVqhG" 
+		authorities="ROLE_ADMIN,ROLE_FACULTY" /> </security:user-service> </security:authentication-provider> 
+		</security:authentication-manager> -->
+
+	<!-- authentication manager with properties file configuration -->
+
+	<!-- <security:authentication-manager> <security:authentication-provider> 
+		<security:user-service properties="classpath:com/nt/commons/info.properties"> 
+		</security:user-service> </security:authentication-provider> </security:authentication-manager> -->
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service
+				data-source-ref="ds"
+				users-by-username-query="SELECT UNAME,PWD,STATUS FROM USERS WHERE UNAME=?"
+				authorities-by-username-query="SELECT ROLEID,ROLE,UNAME FROM USER_ROLES WHERE UNAME=?" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+</beans>
