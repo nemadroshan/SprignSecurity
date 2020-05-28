@@ -1,0 +1,22 @@
+<!-- SQL> create table users(uname varchar2(10) primary key,pwd varchar2(10),status number(2));
+
+Table created.
+
+SQL> create table user_roles(roleId number(5) primary key,role varchar2(10),uname  varchar2(10) references users(uname));
+
+SQL> select * from users;
+
+UNAME      PWD        STATUS
+---------- ---------- ----------
+raja       rani       1
+rani       rani       1
+jani       hyd        1
+SQL> select * from user_roles;
+
+    ROLEID ROLE                 UNAME
+---------- -------------------- --------------------
+         1 ROLE_ADMIN     		  raja
+         2 ROLE_FACULTY         rani
+         3 ROLE_ADMIN           jani
+
+ -->

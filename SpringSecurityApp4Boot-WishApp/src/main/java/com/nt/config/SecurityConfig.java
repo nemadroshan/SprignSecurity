@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-//@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String USERNAME_PWD_QUERY = "SELECT UNAME,PWD,STATUS FROM USERS WHERE UNAME=?";
 	private static final String USERNAME_ROLES_QUERY = "SELECT ROLEID,ROLE,UNAME FROM USER_ROLES WHERE UNAME =?";
@@ -25,12 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/home.htm").access("permitAll").antMatchers("/wish.htm")
-				.access("hasAnyRole('ROLE_ADMIN','ROLE_FACULTY')'")
+				.access("hasAnyRole('ROLE_ADMIN','ROLE_FACULTY')")
 				.and().formLogin()
 				.and().logout().logoutSuccessUrl("/home.htm")
 				.and().exceptionHandling().accessDeniedPage("/error_page.jsp")
 				.and().rememberMe()
-				.and().sessionManagement().invalidSessionUrl("/timeout.jsp").maximumSessions(2).expiredUrl("timeout.jsp");
+				.and().sessionManagement().invalidSessionUrl("/timeout.jsp").maximumSessions(2).expiredUrl("/timeout.jsp");
 	}
-	//6287170031
+
 }
