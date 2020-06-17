@@ -24,5 +24,4 @@ public class WishMessageServiceImpl implements WishMessageService {
 		else
 			return "Good night";
 	}
-
 }
